@@ -84,9 +84,7 @@ public class MemberService {
                     .build();
             showMemOrderingsResDtos.add(showMemOrderingsResDto);
 //            }
-
         }
-
         return showMemOrderingsResDtos;
     }
 }

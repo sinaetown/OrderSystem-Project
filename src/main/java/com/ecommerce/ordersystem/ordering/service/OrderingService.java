@@ -52,7 +52,8 @@ public class OrderingService {
 //        OrderItem 테이블에 들어있는 모든 데이터 한 줄에 한 개씩 추가
         for (CreateOrderingReqDto.OrderingItemDto orderingItemDto : createOrderReqDto.getOrderingItemDtos()) {
             Item item = itemRepository.findById(orderingItemDto.getItemId()).orElseThrow(() -> new EntityNotFoundException("해당하는 ID의 아이템이 없습니다!"));
-            if (item.getStockQuantity() <= 0) {
+            int afterPurchase = item.getStockQuantity() - orderingItemDto.getCount();
+            if (afterPurchase < 0) {
                 throw new IllegalArgumentException("수량 부족!");
             } else {
                 OrderItem orderItem = OrderItem.builder()
@@ -62,6 +63,7 @@ public class OrderingService {
                         .build();
                 orderItemRepository.save(orderItem); //주문 기록은 해야지
                 item.purchased(orderingItemDto.getCount()); //재고량 줄여야지 -> dirty check
+
             }
         }
     }
