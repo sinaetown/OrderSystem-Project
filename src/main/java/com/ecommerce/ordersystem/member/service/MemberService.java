@@ -43,8 +43,29 @@ public class MemberService {
     public List<ShowMembersResDto> showMembers() {
         List<ShowMembersResDto> showMembersResDtos = new ArrayList<>();
         String role = "user";
+
         for (Member member : memberRepository.findAll()) {
+            List<Ordering> orders = new ArrayList<>();
+            List<OrderItemResDto> orderings = new ArrayList<>();
+            System.out.println(member.getOrderings());
             if (member.getRole().equals(Role.ADMIN)) role = "admin";
+            if (member.getOrderings().size() == 0) {
+                orders = new ArrayList<>();
+            } else {
+                orders = member.getOrderings();
+            }
+            System.out.println(orders.size());
+            for (Ordering o : orders) {
+                List<OrderItem> orderItems = orderItemRepository.findByOrdering_id(o.getId());
+                for(OrderItem oi : orderItems){
+                    OrderItemResDto orderItemResDto = OrderItemResDto.builder()
+                            .quantity(oi.getQuantity())
+                            .name(oi.getItem().getName())
+                            .build();
+                    orderings.add(orderItemResDto);
+                }
+            }
+
             ShowMembersResDto showMembersResDto = ShowMembersResDto.builder()
                     .id(member.getId())
                     .name(member.getName())
@@ -52,7 +73,7 @@ public class MemberService {
                     .password(member.getPassword())
                     .address(member.getAddress())
                     .role(role)
-//                    .orderings(member.getOrderings()) ?????? needs editing
+                    .orderings(orderings)
                     .createdTime(member.getCreatedTime())
                     .build();
             showMembersResDtos.add(showMembersResDto);

@@ -18,14 +18,14 @@ public class OrderingController {
 
     @PostMapping("/order/new")
     @ResponseBody
-    public String createOrder(@RequestBody CreateOrderingReqDto createOrderingReqDto){
+    public String createOrder(@RequestBody CreateOrderingReqDto createOrderingReqDto) {
         orderingService.createOrder(createOrderingReqDto);
         return "Order created!";
     }
 
     @PostMapping("/order/{id}/canceled")
     @ResponseBody
-    public String cancelOrder(@PathVariable (value="id") Long id){
+    public String cancelOrder(@PathVariable(value = "id") Long id) {
         orderingService.cancelOrder(id);
         return "Order canceled!";
     }

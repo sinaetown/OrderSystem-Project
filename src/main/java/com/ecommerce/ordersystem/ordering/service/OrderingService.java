@@ -48,6 +48,8 @@ public class OrderingService {
                 .orderStatus(OrderStatus.ORDERED)
                 .build();
         orderingRepository.save(ordering);
+        member.getOrderings().add(ordering);
+        System.out.println(member.getOrderings());
 
 //        OrderItem 테이블에 들어있는 모든 데이터 한 줄에 한 개씩 추가
         for (CreateOrderingReqDto.OrderingItemDto orderingItemDto : createOrderReqDto.getOrderingItemDtos()) {

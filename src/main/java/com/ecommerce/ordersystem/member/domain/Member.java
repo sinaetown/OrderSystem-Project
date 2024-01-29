@@ -1,10 +1,7 @@
 package com.ecommerce.ordersystem.member.domain;
 
 import com.ecommerce.ordersystem.ordering.domain.Ordering;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,6 +37,7 @@ public class Member {
     //    요구사항: orderings(Ordering과 OneToMany관계)
 //    신애: CascadeType.all으로 설정하지 않은 이유는 = 회원가입 -> 자동 주문 생성하지 않기 때문!
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @Setter
     private List<Ordering> orderings;
 
     @CreationTimestamp
